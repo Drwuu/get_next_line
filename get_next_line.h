@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ludwuu <ludwuu@student.42.fr>              +#+  +:+       +#+        */
+/*   By: drwuu <drwuu@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 16:05:04 by ludwuu            #+#    #+#             */
-/*   Updated: 2020/12/04 02:09:53 by ludwuu           ###   ########.fr       */
+/*   Updated: 2020/12/15 21:11:24 by drwuu            ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,10 @@
 # include <stdlib.h>
 # include <unistd.h>
 
-int     get_next_line(int fd, char **line);
+int		get_next_line(int fd, char **line);
+size_t	ft_strlen(const char *s);
 char	*ft_realloc(char *s1, const char *s2);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
+char	*ft_strdup(const char *s1);
 
 #endif

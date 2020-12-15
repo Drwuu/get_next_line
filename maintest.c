@@ -10,7 +10,7 @@ int   main()
   int   fd;
 
   fd = open("test", O_RDONLY);
-  while (get_next_line(fd, &line) == 1)
+  while (get_next_line(fd, &line))
   {
     printf("get next line = %s\n", line);
     free(line);
@@ -24,6 +24,7 @@ int   main()
   get_next_line(fd, &line);
   printf("get next line = %s\n", line);
   free(line);*/
+  free(line);
   close(fd);
   return (0);
 }
