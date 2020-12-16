@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_utils.c                              :+:      :+:    :+:   */
+/*   get_next_line_utils_bonus.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lwourms <lwourms@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 14:13:17 by ludwuu            #+#    #+#             */
-/*   Updated: 2020/12/16 18:38:26 by lwourms          ###   ########lyon.fr   */
+/*   Updated: 2020/12/16 18:32:37 by lwourms          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ char	*ft_realloc(char *s1, const char *s2, int s2len)
 	if (!s1 || !s2)
 		return (NULL);
 	len = ft_strlen(s1) + s2len;
+	//printf("len = %d\n", len);
 	if (!(str = malloc(sizeof(*str) * (len + 1))))
 		return (NULL);
 	i = 0;
@@ -84,7 +85,10 @@ char	*ft_realloc(char *s1, const char *s2, int s2len)
 	j = i;
 	i = 0;
 	while (i <= s2len)
+	{
+		//printf("coucou\n");
 		str[j++] = s2[i++];
+	}
 	str[j] = '\0';
 	return (str);
 }

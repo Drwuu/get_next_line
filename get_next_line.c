@@ -3,127 +3,88 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drwuu <drwuu@student.42lyon.fr>            +#+  +:+       +#+        */
+/*   By: lwourms <lwourms@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 13:32:07 by ludwuu            #+#    #+#             */
-/*   Updated: 2020/12/15 18:32:22 by drwuu            ###   ########lyon.fr   */
+/*   Updated: 2020/12/16 19:37:38 by lwourms          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
-#include <stdio.h> // to remove
+#include "stdio.h" //to remove
 
-/* char    *old_fillstr(int fd, char *str)
-{
-	char    buf[BUFFER_SIZE + 1];
-	int     head;
-
-	while ((head = read(fd, buf, BUFFER_SIZE)) > 0)
-	{
-		buf[head] = '\0';
-		str = ft_realloc(str, buf);
-	}
-	return (str);
-} */
-/*int     old_get_next_line(int fd, char **line)
-{
-	static char *str;
-
-	if (fd < 0 || line == 0)
-		return (-1);
-	if (!str)
-	{
-		if (!(str = malloc(sizeof(*str) * (BUFFER_SIZE + 1))))
-			return (-1);
-		str = fillstr(fd, str);
-	}
-	if (build_line(str, line))
-		return (1);
-	free(str);
-	return (0);
-}
-*/
-/*int		old_build_line(char *str, char **line)
-{
-	int         start;
-	static int  i = 0;
-
-	start = i;
-	while (str[i] && str[i] != '\n')
-		i++;
-	*line = ft_substr(str, start, i - start);
-	printf("next line = %s\n", *line);
-	printf("str c = %d\n", str[i]);
-	if (str[i])
-	{
-		i++;
-		return (1);
-	}
-	else
-		return (0);
-}
-*/
-
-int		readline(int fd, char **str)
-{
-	char	buf[BUFFER_SIZE + 1];
-	int		head;
-	int		i;
-
-	i = 0;
-	while ((head = read(fd, buf, BUFFER_SIZE)) > 0)
-	{
-		while (buf[i] && buf[i] != '\n')
-			i++;
-		if (buf[i] == '\n')
-		{
-			*str = ft_realloc(*str, buf);
-			printf("str = %s\n", *str);
-			//printf("buf = %s\n", buf);
-			return (1);
-		}
-		else
-		{
-			buf[head] = '\0';
-			*str = ft_realloc(*str, buf);
-			i = 0;
-		}
-	}
-	return (0);
-}
-
-int		build_line(char **str, char **line)
+int		new_line_index(char *str)
 {
 	int i;
 
 	i = 0;
-	while (*str[i] && *str[i] != '\n')
-		i++;
-	if (*str[i] == '\n')
+	while (str[i])
+    {
+        if (str[i] == '\n')
+            return (i);
+        i++;
+    }
+	return (-1);
+}
+
+char	*copy_line(int fd, char *linecopy)
+{
+	char	buf[BUFFER_SIZE + 1];
+	char	*str;
+	int		head;
+	int		i;
+	
+	if(!(str = ft_strdup("")))
+		return (NULL);
+	i = new_line_index(linecopy);
+	if (linecopy[i] == '\n')
+    {
+        free(str);
+		if(!(str = ft_substr(linecopy, i + 1, ft_strlen(linecopy))))
+			return (NULL);
+    }
+	while ((i = new_line_index(str)) == -1)
 	{
-		*line = ft_substr(*str, 0, i - 1);
-		return (1);
+        if ((head = read(fd, buf, BUFFER_SIZE)) == 0)
+        {
+            free (linecopy);
+            return (str);
+        }
+		buf[head] = '\0';
+		if (!(str = ft_realloc(str, buf, head)))
+            return (NULL);
 	}
-	*line = ft_substr(*str, 0, i - 1);
-	return (0);
+    free (linecopy);
+	return (str);
+}
+
+int		build_line(char *linecopy, char **line)
+{
+	int i;
+
+	i = new_line_index(linecopy);
+	//printf("i = %d\n", i);
+	if (!(*line = ft_substr(linecopy, 0, i)))
+		return (-1);
+    if (i >= 0)
+        return (1);
+    else
+    {
+    	free(linecopy);
+        return (0);
+    }
 }
 
 int		get_next_line(int fd, char **line)
 {
-	static char *str;
-
-	if (fd < 0 || line == 0)
+	static char *linecopy[4096];
+	
+	if (fd < 0 || line == NULL)
 		return (-1);
-	if (!str)
-		if (!(str = malloc(sizeof(*str) * (BUFFER_SIZE + 1))))
+	if (!linecopy[fd])
+		if (!(linecopy[fd] = ft_strdup("")))
 			return (-1);
-	if (readline(fd, &str))
-	{
-		build_line(&str, line);
-		return (1);
-	}
-	*line = str;
-	return (0);
-	//if (build_line(str, line))
-	//	return (1);
+	if (!(linecopy[fd] = copy_line(fd, linecopy[fd])))
+		return (-1);
+	return (build_line(linecopy[fd], line));
 }

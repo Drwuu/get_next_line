@@ -7,24 +7,77 @@
 int   main()
 {
   char  *line;
-  int   fd;
+  int   fd[4];
 
-  fd = open("test", O_RDONLY);
-  while (get_next_line(fd, &line))
+  /*
+  fd[3] = open("test2", O_RDONLY);
+  while (get_next_line(fd[3], &line))
   {
-    printf("get next line = %s\n", line);
-    free(line);
+	  printf("get next line = %s\n", line);
+	  free(line);
   }
-  /*get_next_line(fd, &line);
   printf("get next line = %s\n", line);
   free(line);
-  get_next_line(fd, &line);
+  close(fd[3]);
+  */
+  
+  fd[0] = open("huge_alphabet", O_RDONLY);
+  fd[1] = open("test2", O_RDONLY);
+  fd[2] = open("test", O_RDONLY);
+  get_next_line(fd[0], &line);
   printf("get next line = %s\n", line);
   free(line);
-  get_next_line(fd, &line);
+  get_next_line(fd[2], &line);
   printf("get next line = %s\n", line);
-  free(line);*/
   free(line);
-  close(fd);
+  get_next_line(fd[1], &line);
+  printf("get next line = %s\n", line);
+  free(line);
+  get_next_line(fd[0], &line);
+  printf("get next line = %s\n", line);
+  free(line);
+  get_next_line(fd[2], &line);
+  printf("get next line = %s\n", line);
+  free(line);
+  get_next_line(fd[1], &line);
+  printf("get next line = %s\n", line);
+  free(line);
+  get_next_line(fd[1], &line);
+  printf("get next line = %s\n", line);
+  free(line);
+  get_next_line(fd[2], &line);
+  printf("get next line = %s\n", line);
+  free(line);
+  get_next_line(fd[0], &line);
+  printf("get next line = %s\n", line);
+  free(line);
+  get_next_line(fd[2], &line);
+  printf("get next line = %s\n", line);
+  free(line);
+  get_next_line(fd[0], &line);
+  printf("get next line = %s\n", line);
+  free(line);
+  get_next_line(fd[0], &line);
+  printf("get next line = %s\n", line);
+  free(line);
+  get_next_line(fd[1], &line);
+  printf("get next line = %s\n", line);
+  free(line);
+  get_next_line(fd[1], &line);
+  printf("get next line = %s\n", line);
+  free(line);
+  get_next_line(fd[2], &line);
+  printf("get next line = %s\n", line);
+  free(line);
+  get_next_line(fd[2], &line);
+  printf("get next line = %s\n", line);
+  free(line);
+  get_next_line(fd[0], &line);
+  printf("get next line = %s\n", line);
+  free(line);
+  close(fd[0]);
+  close(fd[1]);
+  close(fd[2]);
+  
   return (0);
 }

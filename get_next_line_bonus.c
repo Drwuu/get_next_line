@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line2.c                                   :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drwuu <drwuu@student.42lyon.fr>            +#+  +:+       +#+        */
+/*   By: lwourms <lwourms@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 13:32:07 by ludwuu            #+#    #+#             */
-/*   Updated: 2020/12/15 22:39:42 by drwuu            ###   ########lyon.fr   */
+/*   Updated: 2020/12/16 18:32:29 by lwourms          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,13 @@ int		new_line_index(char *str)
 	int i;
 
 	i = 0;
-	while (str[i] && str[i] != '\n')
-		i++;
-	return (i);
+	while (str[i])
+    {
+        if (str[i] == '\n')
+            return (i);
+        i++;
+    }
+	return (-1);
 }
 
 char	*copy_line(int fd, char *linecopy)
@@ -33,20 +37,23 @@ char	*copy_line(int fd, char *linecopy)
 		return (NULL);
 	i = new_line_index(linecopy);
 	if (linecopy[i] == '\n')
+    {
+        free(str);
 		if(!(str = ft_substr(linecopy, i + 1, ft_strlen(linecopy))))
 			return (NULL);
-	while ((head = read(fd, buf, BUFFER_SIZE)) > 0)
+    }
+	while ((i = new_line_index(str)) == -1)
 	{
-		i = new_line_index(buf);
-		if (buf[i] == '\n')
-		{
-			str = ft_realloc(str, buf); // protection
-			break;
-		}
+        if ((head = read(fd, buf, BUFFER_SIZE)) == 0)
+        {
+            free (linecopy);
+            return (str);
+        }
 		buf[head] = '\0';
-		str = ft_realloc(str, buf); // protection
-		i = 0;
+		if (!(str = ft_realloc(str, buf, head)))
+            return (NULL);
 	}
+    free (linecopy);
 	return (str);
 }
 
@@ -56,24 +63,26 @@ int		build_line(char *linecopy, char **line)
 
 	i = new_line_index(linecopy);
 	if (!(*line = ft_substr(linecopy, 0, i)))
-		return (0);
-	return (1);
+		return (-1);
+    if (linecopy[i])
+        return (1);
+    else
+    {
+    	free(linecopy);
+        return (0);
+    }
 }
 
 int		get_next_line(int fd, char **line)
 {
-	static char *linecopy;
+	static char *linecopy[4096];
 	
 	if (fd < 0 || line == NULL)
 		return (-1);
-	if (!linecopy)
-		if (!(linecopy = malloc(sizeof(*linecopy) * (BUFFER_SIZE + 1))))
+	if (!linecopy[fd])
+		if (!(linecopy[fd] = ft_strdup("")))
 			return (-1);
-	if (!(linecopy = copy_line(fd, linecopy)) 	\
-			|| !(build_line(linecopy, line)))
+	if (!(linecopy[fd] = copy_line(fd, linecopy[fd])))
 		return (-1);
-	if (linecopy[ft_strlen(linecopy) - 1])
-		return (1);
-	free(linecopy);
-	return (0);
+	return (build_line(linecopy[fd], line));
 }
