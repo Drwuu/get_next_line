@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drwuu <drwuu@student.42lyon.fr>            +#+  +:+       +#+        */
+/*   By: lwourms <lwourms@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 19:01:43 by drwuu             #+#    #+#             */
-/*   Updated: 2020/12/19 15:45:18 by drwuu            ###   ########lyon.fr   */
+/*   Updated: 2020/12/19 15:54:50 by lwourms          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,8 @@ int		build_line(char **str, char **line)
 	else
 	{
 		*line = ft_substr(*str, 0, ft_strlen(*str));
-		//free(*str);
+		if (**str)
+			free(*str);
 		return (0);
 	}
 }
