@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lwourms <lwourms@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: drwuu <drwuu@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 19:01:43 by drwuu             #+#    #+#             */
-/*   Updated: 2020/12/19 15:54:50 by lwourms          ###   ########lyon.fr   */
+/*   Updated: 2020/12/19 18:12:07 by drwuu            ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ int		read_line(char **str, int fd)
 
 	while ((head = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
-		if (head < 0)
-			return (-1);
 		buf[head] = '\0';
 		if (!*str)
+		{
 			*str = ft_strdup(buf);
+		}
 		else
 		{
 			tmp = ft_strjoin(*str, buf);
@@ -51,6 +51,7 @@ int		read_line(char **str, int fd)
 	}
 	if(!*str)
 	{
+		printf("bulma\n");
 		*str = "\0";
 		return (-1);
 	}
@@ -74,17 +75,17 @@ int		build_line(char **str, char **line)
 	else
 	{
 		*line = ft_substr(*str, 0, ft_strlen(*str));
-		if (**str)
-			free(*str);
+		free(*str);
+		*str = NULL;
 		return (0);
 	}
 }
 
-int			get_next_line(const int fd, char **line)
+int		get_next_line(const int fd, char **line)
 {
 	static char	*str[7777];
-
-	if (fd < 0 || line == NULL)
+	
+	if (!line || fd < 0 || (read(fd, str[fd], 0) < 0))
 		return (-1);
 	if (read_line(&str[fd], fd))
 		return (build_line(&str[fd], line));

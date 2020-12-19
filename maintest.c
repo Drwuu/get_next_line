@@ -30,6 +30,16 @@ int   main()
   printf("final get next line %d = %s\n", linenb, line);
   free(line);
   close(fd[0]);
+  printf("*** LOOP 3 ***\n");
+  fd[0] = open("test3", O_RDONLY);
+  while (get_next_line(fd[0], &line))
+  {
+	  printf("get next line %d = %s\n", linenb++, line);
+	  free(line);
+  }
+  printf("final get next line %d = %s\n", linenb, line);
+  free(line);
+  close(fd[0]);
 //while (1)
 //    ;
 /*
