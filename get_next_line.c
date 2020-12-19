@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drwuu <drwuu@student.42lyon.fr>            +#+  +:+       +#+        */
+/*   By: lwourms <lwourms@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 19:01:43 by drwuu             #+#    #+#             */
-/*   Updated: 2020/12/19 18:12:07 by drwuu            ###   ########lyon.fr   */
+/*   Updated: 2020/12/19 18:20:10 by lwourms          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ int		read_line(char **str, int fd)
 	}
 	if(!*str)
 	{
-		printf("bulma\n");
-		*str = "\0";
+		//printf("bulma\n");
+		*str = ft_strdup("");
 		return (-1);
 	}
 	return (1);
@@ -63,6 +63,7 @@ int		build_line(char **str, char **line)
 	int		i;
 	char	*tmp;
 
+	//printf("goku\n");
 	i = find_newline(*str);
 	if (i >= 0)
 	{
