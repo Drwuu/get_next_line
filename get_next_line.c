@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: drwuu <drwuu@student.42lyon.fr>            +#+  +:+       +#+        */
+/*   By: lwourms <lwourms@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 19:01:43 by drwuu             #+#    #+#             */
-/*   Updated: 2020/12/19 01:50:52 by drwuu            ###   ########lyon.fr   */
+/*   Updated: 2020/12/19 15:12:54 by lwourms          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,7 @@ int		read_line(char **str, int fd)
 			return (-1);
 		buf[head] = '\0';
 		if (!*str)
-		{
 			*str = ft_strdup(buf);
-			static int i = 1;
-			printf("file %d\n", i++);
-		}
 		else
 		{
 			tmp = ft_strjoin(*str, buf);
@@ -52,6 +48,11 @@ int		read_line(char **str, int fd)
 		}
 		if (find_newline(*str) >= 0)
 			break ;
+	}
+	if(!*str)
+	{
+		*str = ft_strdup(buf);
+		return (-1);
 	}
 	return (1);
 }
@@ -68,14 +69,14 @@ int		build_line(char **str, char **line)
 		tmp = ft_strdup(&(*str)[i + 1]);
 		free(*str);
 		*str = tmp;
-        return (1);
+		return (1);
 	}
-    else
-    {
+	else
+	{
 		*line = ft_substr(*str, 0, ft_strlen(*str));
-    	free(*str);
-        return (0);
-    }
+		free(*str);
+		return (0);
+	}
 }
 
 int			get_next_line(const int fd, char **line)
