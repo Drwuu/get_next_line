@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lwourms <lwourms@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: drwuu <drwuu@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 16:05:04 by ludwuu            #+#    #+#             */
-/*   Updated: 2020/12/16 18:32:53 by lwourms          ###   ########lyon.fr   */
+/*   Updated: 2020/12/19 00:22:20 by drwuu            ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,10 @@
 
 int		get_next_line(int fd, char **line);
 size_t	ft_strlen(const char *s);
-char	*ft_realloc(char *s1, const char *s2, int s2len);
 char	*ft_substr(char const *s, unsigned int start, size_t len);
 char	*ft_strdup(const char *s1);
+char	*ft_strjoin(char const *s1, char const *s2);
+void	ft_strdel(char **as);
+void	ft_memdel(void **ap);
 
 #endif

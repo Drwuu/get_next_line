@@ -7,20 +7,23 @@
 int   main()
 {
   char  *line;
-  int   fd[4];
-
-  /*
-  fd[3] = open("test2", O_RDONLY);
-  while (get_next_line(fd[3], &line))
+  int   fd[3];
+/*
+  int linenb = 1;
+  printf("*** LOOP ***\n");
+  fd[0] = open("huge_alphabet", O_RDONLY);
+  while (get_next_line(fd[0], &line))
   {
-	  printf("get next line = %s\n", line);
+	  printf("get next line %d = %s\n", linenb++, line);
 	  free(line);
   }
-  printf("get next line = %s\n", line);
+  printf("final get next line %d = %s\n", linenb, line);
   free(line);
-  close(fd[3]);
-  */
-  
+  close(fd[0]);
+*/
+
+  printf("\n");
+  printf("*** CALLS ***\n");
   fd[0] = open("huge_alphabet", O_RDONLY);
   fd[1] = open("test2", O_RDONLY);
   fd[2] = open("test", O_RDONLY);
@@ -78,6 +81,6 @@ int   main()
   close(fd[0]);
   close(fd[1]);
   close(fd[2]);
-  
+
   return (0);
 }

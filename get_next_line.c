@@ -3,88 +3,89 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lwourms <lwourms@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: drwuu <drwuu@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/11/30 13:32:07 by ludwuu            #+#    #+#             */
-/*   Updated: 2020/12/16 19:37:38 by lwourms          ###   ########lyon.fr   */
+/*   Created: 2020/12/18 19:01:43 by drwuu             #+#    #+#             */
+/*   Updated: 2020/12/19 01:50:52 by drwuu            ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 #include "stdio.h" //to remove
 
-int		new_line_index(char *str)
+int		find_newline(char *str)
 {
 	int i;
 
 	i = 0;
 	while (str[i])
-    {
-        if (str[i] == '\n')
-            return (i);
-        i++;
-    }
+	{
+		if (str[i] == '\n')
+			return (i);
+		i++;
+	}
 	return (-1);
 }
 
-char	*copy_line(int fd, char *linecopy)
+int		read_line(char **str, int fd)
 {
-	char	buf[BUFFER_SIZE + 1];
-	char	*str;
 	int		head;
-	int		i;
-	
-	if(!(str = ft_strdup("")))
-		return (NULL);
-	i = new_line_index(linecopy);
-	if (linecopy[i] == '\n')
-    {
-        free(str);
-		if(!(str = ft_substr(linecopy, i + 1, ft_strlen(linecopy))))
-			return (NULL);
-    }
-	while ((i = new_line_index(str)) == -1)
+	char	buf[BUFFER_SIZE + 1];
+	char	*tmp;
+
+	while ((head = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
-        if ((head = read(fd, buf, BUFFER_SIZE)) == 0)
-        {
-            free (linecopy);
-            return (str);
-        }
+		if (head < 0)
+			return (-1);
 		buf[head] = '\0';
-		if (!(str = ft_realloc(str, buf, head)))
-            return (NULL);
+		if (!*str)
+		{
+			*str = ft_strdup(buf);
+			static int i = 1;
+			printf("file %d\n", i++);
+		}
+		else
+		{
+			tmp = ft_strjoin(*str, buf);
+			free(*str);
+			*str = tmp;
+		}
+		if (find_newline(*str) >= 0)
+			break ;
 	}
-    free (linecopy);
-	return (str);
+	return (1);
 }
 
-int		build_line(char *linecopy, char **line)
+int		build_line(char **str, char **line)
 {
-	int i;
+	int		i;
+	char	*tmp;
 
-	i = new_line_index(linecopy);
-	//printf("i = %d\n", i);
-	if (!(*line = ft_substr(linecopy, 0, i)))
-		return (-1);
-    if (i >= 0)
+	i = find_newline(*str);
+	if (i >= 0)
+	{
+		*line = ft_substr(*str, 0, i);
+		tmp = ft_strdup(&(*str)[i + 1]);
+		free(*str);
+		*str = tmp;
         return (1);
+	}
     else
     {
-    	free(linecopy);
+		*line = ft_substr(*str, 0, ft_strlen(*str));
+    	free(*str);
         return (0);
     }
 }
 
-int		get_next_line(int fd, char **line)
+int			get_next_line(const int fd, char **line)
 {
-	static char *linecopy[4096];
-	
+	static char	*str[7777];
+
 	if (fd < 0 || line == NULL)
 		return (-1);
-	if (!linecopy[fd])
-		if (!(linecopy[fd] = ft_strdup("")))
-			return (-1);
-	if (!(linecopy[fd] = copy_line(fd, linecopy[fd])))
+	if (read_line(&str[fd], fd))
+		return (build_line(&str[fd], line));
+	else
 		return (-1);
-	return (build_line(linecopy[fd], line));
 }

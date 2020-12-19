@@ -1,16 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lwourms <lwourms@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: drwuu <drwuu@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 13:32:07 by ludwuu            #+#    #+#             */
-/*   Updated: 2020/12/16 18:32:29 by lwourms          ###   ########lyon.fr   */
+/*   Updated: 2020/12/19 00:50:09 by drwuu            ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include "stdio.h" //to remove
 
 int		new_line_index(char *str)
 {
@@ -30,13 +31,13 @@ char	*copy_line(int fd, char *linecopy)
 {
 	char	buf[BUFFER_SIZE + 1];
 	char	*str;
+	char	*tmp;
 	int		head;
 	int		i;
 	
 	if(!(str = ft_strdup("")))
 		return (NULL);
-	i = new_line_index(linecopy);
-	if (linecopy[i] == '\n')
+	if ((i = new_line_index(linecopy)) >= 0)
     {
         free(str);
 		if(!(str = ft_substr(linecopy, i + 1, ft_strlen(linecopy))))
@@ -50,8 +51,10 @@ char	*copy_line(int fd, char *linecopy)
             return (str);
         }
 		buf[head] = '\0';
-		if (!(str = ft_realloc(str, buf, head)))
+		if (!(tmp = ft_strjoin(str, buf)))
             return (NULL);
+		free(str);
+		str = tmp;
 	}
     free (linecopy);
 	return (str);
@@ -62,9 +65,10 @@ int		build_line(char *linecopy, char **line)
 	int i;
 
 	i = new_line_index(linecopy);
+	//printf("i = %d\n", i);
 	if (!(*line = ft_substr(linecopy, 0, i)))
 		return (-1);
-    if (linecopy[i])
+    if (i >= 0)
         return (1);
     else
     {

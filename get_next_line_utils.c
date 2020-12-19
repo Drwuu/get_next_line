@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lwourms <lwourms@student.42lyon.fr>        +#+  +:+       +#+        */
+/*   By: drwuu <drwuu@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 14:13:17 by ludwuu            #+#    #+#             */
-/*   Updated: 2020/12/16 18:38:26 by lwourms          ###   ########lyon.fr   */
+/*   Updated: 2020/12/19 00:37:24 by drwuu            ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*ft_strdup(const char *s1)
 	char	*str;
 	int		i;
 
-	if (!(str = malloc(sizeof(*str) * (ft_strlen((char *)s1) + 1))))
+	if (!(str = malloc(sizeof(*str) * ((int)ft_strlen(s1) + 1))))
 		return (NULL);
 	i = 0;
 	while (s1[i])
@@ -62,28 +62,23 @@ char	*ft_substr(char const *s, unsigned int start, size_t len)
 	return (str);
 }
 
-char	*ft_realloc(char *s1, const char *s2, int s2len)
+char	*ft_strjoin(char const *s1, char const *s2)
 {
 	char	*str;
 	int		i;
 	int		j;
-	int		len;
 
 	if (!s1 || !s2)
-		return (NULL);
-	len = ft_strlen(s1) + s2len;
-	if (!(str = malloc(sizeof(*str) * (len + 1))))
-		return (NULL);
+		return (0);
+	if (!(str = malloc((sizeof(*str) * (ft_strlen((char *)s1) 	\
+			+ ft_strlen((char *)s2)) + 1))))
+		return (0);
 	i = 0;
+	j = 0;
 	while (s1[i])
-	{
-		str[i] = s1[i];
-		i++;
-	}
-	free(s1);
-	j = i;
+		str[j++] = s1[i++];
 	i = 0;
-	while (i <= s2len)
+	while (s2[i])
 		str[j++] = s2[i++];
 	str[j] = '\0';
 	return (str);
