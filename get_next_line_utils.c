@@ -6,7 +6,7 @@
 /*   By: drwuu <drwuu@student.42lyon.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 14:13:17 by ludwuu            #+#    #+#             */
-/*   Updated: 2020/12/19 00:37:24 by drwuu            ###   ########lyon.fr   */
+/*   Updated: 2020/12/20 15:58:54 by drwuu            ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,10 +69,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	int		j;
 
 	if (!s1 || !s2)
-		return (0);
+		return (NULL);
 	if (!(str = malloc((sizeof(*str) * (ft_strlen((char *)s1) 	\
 			+ ft_strlen((char *)s2)) + 1))))
-		return (0);
+		return (NULL);
 	i = 0;
 	j = 0;
 	while (s1[i])
@@ -83,3 +83,8 @@ char	*ft_strjoin(char const *s1, char const *s2)
 	str[j] = '\0';
 	return (str);
 }
+
+/* int		free_all_memories(void **value)
+{
+	
+} */
