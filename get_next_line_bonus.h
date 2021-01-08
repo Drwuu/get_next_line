@@ -6,12 +6,13 @@
 /*   By: lwourms <lwourms@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/30 16:05:04 by ludwuu            #+#    #+#             */
-/*   Updated: 2021/01/05 13:30:16 by lwourms          ###   ########lyon.fr   */
+/*   Updated: 2021/01/08 13:00:05 by lwourms          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_BONUS_H
 # define GET_NEXT_LINE_BONUS_H
+# include <limits.h>
 # include <stdlib.h>
 # include <unistd.h>
 
