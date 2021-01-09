@@ -6,13 +6,13 @@
 /*   By: lwourms <lwourms@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 19:01:43 by lwourms           #+#    #+#             */
-/*   Updated: 2021/01/08 13:21:24 by lwourms          ###   ########lyon.fr   */
+/*   Updated: 2021/01/09 16:54:04 by lwourms          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-int		find_newline(char *str)
+static	int		find_newline(char *str)
 {
 	int i;
 
@@ -26,7 +26,7 @@ int		find_newline(char *str)
 	return (-1);
 }
 
-int		copy_line(const char *buf, char **str)
+static	int		copy_line(const char *buf, char **str)
 {
 	char	*tmp;
 
@@ -45,7 +45,7 @@ int		copy_line(const char *buf, char **str)
 	return (1);
 }
 
-int		read_line(char **str, int fd)
+static	int		read_line(char **str, int fd)
 {
 	int		head;
 	char	*buf;
@@ -69,7 +69,7 @@ int		read_line(char **str, int fd)
 	return (1);
 }
 
-int		build_line(char **str, char **line)
+static	int		build_line(char **str, char **line)
 {
 	int		i;
 	char	*tmp;
@@ -96,11 +96,11 @@ int		build_line(char **str, char **line)
 	}
 }
 
-int		get_next_line(const int fd, char **line)
+int				get_next_line(const int fd, char **line)
 {
 	static char	*str[OPEN_MAX];
 
-	if (!line || fd < 0 || BUFFER_SIZE == 0)
+	if (!line || fd < 0 || BUFFER_SIZE <= 0)
 		return (-1);
 	if (read_line(&str[fd], fd) > 0)
 		return (build_line(&str[fd], line));
