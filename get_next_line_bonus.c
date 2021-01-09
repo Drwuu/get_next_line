@@ -6,7 +6,7 @@
 /*   By: lwourms <lwourms@student.42lyon.fr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/12/18 19:01:43 by lwourms           #+#    #+#             */
-/*   Updated: 2021/01/08 13:15:48 by lwourms          ###   ########lyon.fr   */
+/*   Updated: 2021/01/09 16:57:59 by lwourms          ###   ########lyon.fr   */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ int		get_next_line(const int fd, char **line)
 {
 	static char	*str[OPEN_MAX];
 
-	if (!line || fd < 0 || BUFFER_SIZE == 0)
+	if (!line || fd < 0 || BUFFER_SIZE <= 0)
 	{
 		*line = NULL;
 		return (-1);
